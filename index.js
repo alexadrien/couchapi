@@ -4,6 +4,7 @@ const cheerio = require('cheerio');
 const lodash = require('lodash');
 const fs = require('fs');
 var opn = require('opn');
+var prompt = require('prompt');
 
 const DB_NAME = "faceface";
 const BASE_URL = process.env.base_url;
@@ -112,19 +113,19 @@ const makeItSeen = async id => {
 const askHuman = async () => {
   const allDocs = await getAllDocs();
   const allDocsDetailed = await Promise.all(allDocs.map(item => getDocument(item.id)));
-  const allUnseedDocs = lodash.filter(allDocsDetailed, { seen: false });
+  const allUnseedDocs = lodash.filter(allDocsDetailed, {seen: false});
   console.log(`There is ${allUnseedDocs.length} profile(s) to discover`);
   const firstUnseed = lodash.slice(allUnseedDocs, 0, pageLength);
   await Promise.all(firstUnseed.map(async item => {
     console.log(item.link);
-    await opn(item.link);
+    await opn(item.link, {wait: false});
   }));
 };
 
 const makePreviousSeen = async () => {
   let allDocs = await getAllDocs();
   let allDocsDetailed = await Promise.all(allDocs.map(item => getDocument(item.id)));
-  let allUnseedDocs = lodash.filter(allDocsDetailed, { seen: false });
+  let allUnseedDocs = lodash.filter(allDocsDetailed, {seen: false});
   let firstUnseed = lodash.slice(allUnseedDocs, 0, pageLength);
   await Promise.all(firstUnseed.map(async item => {
     await makeItSeen(item._id);
@@ -143,11 +144,26 @@ const scrapeAllPage = async () => {
 };
 
 const main = async () => {
-  await scrapeAllPage();
-
-  // await makePreviousSeen();
-
-  await askHuman();
+  console.log('\n1. Scrape\n2. Erase and open unseen\n3. Open unsee\n');
+  prompt.start();
+  await prompt.get(['choice',], async function (err, result) {
+    switch (result.choice) {
+      case '1':
+        console.log('scrape');
+        await scrapeAllPage();
+        break;
+      case '2':
+        console.log('scrape2');
+        await makePreviousSeen();
+        await askHuman();
+        break;
+      case '3':
+        console.log('scrape3');
+        await askHuman();
+        break;
+    }
+    prompt.stop();
+  });
 };
 
 main();
