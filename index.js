@@ -144,7 +144,7 @@ const scrapeAllPage = async () => {
 };
 
 const main = async () => {
-  console.log('\n1. Scrape\n2. Erase and open unseen\n3. Open unsee\n');
+  console.log('\n1. Scrape\n2. Erase and open unseen\n3. Open unseen\n');
   prompt.start();
   await prompt.get(['choice',], async function (err, result) {
     switch (result.choice) {
