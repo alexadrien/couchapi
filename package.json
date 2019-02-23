@@ -1,0 +1,27 @@
+{
+  "name": "couchapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexadrien/couchapi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexadrien/couchapi/issues"
+  },
+  "homepage": "https://github.com/alexadrien/couchapi#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
+    "dotenv": "^6.2.0",
+    "lodash": "^4.17.11",
+    "opn": "^5.4.0"
+  }
+}
